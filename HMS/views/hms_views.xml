@@ -1,0 +1,102 @@
+<odoo>
+    <data>
+
+        <record id="hms_tree_view" model="ir.ui.view">
+            <field name="name">hms tree view</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                    <field name="birth_date"/>
+                    <field name="age"/>
+                    <field name="pcr"/>
+
+
+                </tree>
+            </field>
+        </record>
+        <!-- Form View -->
+
+        <record id="patient_form_view" model="ir.ui.view">
+            <field name="name">patient form view</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+
+                          <button type="object" name="first_state" string="first state"/>
+                        <button type="object" name="second_state" string="second state"/>
+                      <button type="object" name="third_state" string="third state"/>
+                      <button type="object" name="fourth_state" string="fourth state"/>
+
+                    </header>
+                    <sheet>
+                        <group>
+<group>
+                  <field name="first_name"/>
+                    <field name="last_name"/>
+                    <field name="birth_date"/>
+                    <field name="age"/>
+                    <field name="pcr"/>
+                    <field name="history"/>
+                    <field name="e_mail"/>
+
+
+                             </group>
+                            <group>
+                                 <field name="CR_ratio"  attrs="{'required': [('pcr', '=', True)]}"/>
+                                <field name="blood_type"/>
+                                <field name="image"/>
+                                <field name="capacity"/>
+                                <field name="address"/>
+                                <field name="history" attrs="{'invisible': [('age', '&lt;', '50')]}" />
+                                <field name="dept_ids"  domain="[('is_opened', '=', True)]"/>
+
+                                <field name="drs_ids"   attrs="{'readonly': [('dept_ids', '=', False)]}"  widget="many2many_tags"/>
+
+
+                            </group>
+
+
+                        </group>
+                         <notebook>
+                            <page string="Log_History">
+                                <field name="log_history_id">
+                                    <tree>
+                                        <field name="write_uid" string="Created_by"/>
+                                        <field name="Date"/>
+                                        <field name="Description"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="patient_search_view" model="ir.ui.view">
+            <field name="name">patient search view</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="first_name"/>
+                    <field name="history"/>
+
+                </search>
+            </field>
+        </record>
+
+        <record id="patient_action" model="ir.actions.act_window">
+            <field name="name">patient action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hms.patient</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="patient_root_menu" name="patient_info" sequence="1"/>
+        <menuitem id="patient_sub_menu" name="patients" action="patient_action" parent="patient_root_menu"/>
+    </data>
+</odoo>
